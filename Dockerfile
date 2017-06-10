@@ -36,7 +36,8 @@ RUN apt-get update && apt-get install -y \
 	liblzma5 \
 	libxkbfile1 \
 	sudo \
-	gnupg
+	gnupg \
+	wget
 
 # Improve font rendering
 RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" >>/etc/apt/sources.list &&\
