@@ -37,7 +37,13 @@ RUN apt-get update && apt-get install -y \
 	libxkbfile1 \
 	sudo \
 	gnupg \
-	wget
+	wget \
+	ttf-bitstream-vera
+
+#Add emoji
+RUN wget https://github.com/eosrei/emojione-color-font/releases/download/v1.3/fonts-emojione-svginot_1.3-1_all.deb &&\
+	dpkg -i fonts-emojione-svginot_1.3-1_all.deb &&\
+	rm -f fonts-emojione-svginot_1.3-1_all.deb 
 
 # Improve font rendering
 RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" >>/etc/apt/sources.list &&\
