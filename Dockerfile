@@ -52,6 +52,11 @@ RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" 
 	apt-get install -y fontconfig-infinality &&\
 	bash /etc/fonts/infinality/infctl.sh setstyle infinality
 
+# Add my x-browser-forwarder
+RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0.1/client && \
+	mv client /usr/bin/x-www-browser && \
+	chmod +x  /usr/bin/x-www-browser
+
 #Add user for apps that do not support root
 RUN useradd user && usermod -aG sudo user
 RUN echo "ALL            ALL = (ALL) NOPASSWD: ALL" >>/etc/sudoers
