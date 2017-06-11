@@ -38,7 +38,8 @@ RUN apt-get update && apt-get install -y \
 	sudo \
 	gnupg \
 	wget \
-	ttf-bitstream-vera
+	ttf-bitstream-vera \
+	pulseaudio
 
 #Add emoji
 RUN wget https://github.com/eosrei/emojione-color-font/releases/download/v1.3/fonts-emojione-svginot_1.3-1_all.deb &&\
