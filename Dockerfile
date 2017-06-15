@@ -56,8 +56,9 @@ RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" 
 
 # Add my x-browser-forwarder
 RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0.1/client && \
-	mv client /usr/bin/x-www-browser && \
-	chmod +x  /usr/bin/x-www-browser
+	mv client /etc/alternatives/x-www-browser && \
+	chmod +x  /etc/alternatives/x-www-browser && \
+	ln -s /etc/alternatives/x-www-browser /usr/bin/x-www-browser
 
 #Add user for apps that do not support root
 RUN useradd user && usermod -aG sudo user
