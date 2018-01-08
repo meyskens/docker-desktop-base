@@ -16,8 +16,7 @@ RUN apt-get update && apt-get install -y \
 	libgl1-mesa-dri \
 	libgl1-mesa-glx \
 	libgdk-pixbuf2.0-0 \
-	libglib2.0-0 \
-	libgtk2.0-0 \
+	libglib2.0-0 \r
 	libgpg-error0 \
 	libgraphite2-3 \
 	libnotify-bin \
