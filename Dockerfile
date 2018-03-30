@@ -67,4 +67,5 @@ RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0
 
 #Add user for apps that do not support root
 RUN useradd user && usermod -aG sudo user
+RUN mkdir /home/user && chown -R user /home/user
 RUN echo "ALL            ALL = (ALL) NOPASSWD: ALL" >>/etc/sudoers
