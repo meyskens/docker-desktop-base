@@ -56,13 +56,6 @@ RUN wget https://github.com/eosrei/emojione-color-font/releases/download/v1.3/fo
 	dpkg -i fonts-emojione-svginot_1.3-1_all.deb &&\
 	rm -f fonts-emojione-svginot_1.3-1_all.deb 
 
-# Improve font rendering
-RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" >>/etc/apt/sources.list &&\
-	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E985B27B &&\
-	apt-get update  &&\
-	apt-get install -y fontconfig-infinality &&\
-	bash /etc/fonts/infinality/infctl.sh setstyle infinality
-
 # Add my x-browser-forwarder
 # TODO: multiarch the releases
 RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0.1/client && \
