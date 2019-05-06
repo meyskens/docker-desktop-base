@@ -5,7 +5,8 @@ ARG QEMU_BIN
 COPY $QEMU_BIN /usr/bin
 
 # Add components used for the GUI
-RUN apt-get update && apt-get install -y \
+# --allow-unauthenticated is an arm64 patch
+RUN apt-get update && apt-get install -y --allow-unauthenticated \
 	libasound2 \
 	libatk1.0-0 \
 	libcairo2 \
