@@ -1,4 +1,8 @@
-FROM debian:stretch
+ARG ARCH
+FROM $ARCH/debian:stretch
+
+ARG QEMU_BIN
+COPY $QEMU_BIN /usr/bin
 
 # Install GUI dev
 RUN apt-get update &&  apt-get install -y pkg-config libwebkit2gtk-4.0-dev libgtk-3-dev
@@ -62,6 +66,7 @@ RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" 
 	bash /etc/fonts/infinality/infctl.sh setstyle infinality
 
 # Add my x-browser-forwarder
+# TODO: multiarch the releases
 RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0.1/client && \
 	mv client /etc/alternatives/x-www-browser && \
 	chmod +x  /etc/alternatives/x-www-browser && \
@@ -69,4 +74,5 @@ RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0
 
 #Add user for apps that do not support root
 RUN useradd user && usermod -aG sudo user
+RUN mkdir /home/user && chown -R user /home/user
 RUN echo "ALL            ALL = (ALL) NOPASSWD: ALL" >>/etc/sudoers
