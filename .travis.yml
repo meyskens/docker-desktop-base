@@ -21,10 +21,10 @@ jobs:
         - docker run --rm --privileged multiarch/qemu-user-static:register
       script: &_script
         - cp /usr/bin/$QEMU_BIN ./
-        - docker build --build-arg="ARCH=$ARCH" --build-arg="QEMU_BIN=$QEMU_BIN" -t $DOCKER_REPO:$ARCH-latest --squash ./
+        - docker build --build-arg="ARCH=$ARCH" --build-arg="QEMU_BIN=$QEMU_BIN" -t $DOCKER_REPO:$ARCH-gtkdev --squash ./
       after_success: &_after_success
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push $DOCKER_REPO:$ARCH-latest
+        - docker push $DOCKER_REPO:$ARCH-gtkdev
 
     - stage: build
       addons: *_addons
@@ -50,11 +50,11 @@ jobs:
             - docker-ce
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker manifest create $DOCKER_REPO:latest \
-            $DOCKER_REPO:amd64-latest \
-            $DOCKER_REPO:armv8-latest \
-            $DOCKER_REPO:arm64v8-latest
-        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:amd64-latest --arch amd64
-        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:armhf-latest --arch armhf
-        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:arm64v8-latest --arch arm64 --variant armv8
-        - docker manifest push $DOCKER_REPO:latest
+        - docker manifest create $DOCKER_REPO:gtkdev \
+            $DOCKER_REPO:amd64-gtkdev \
+            $DOCKER_REPO:armv8-gtkdev \
+            $DOCKER_REPO:arm64v8-gtkdev
+        - docker manifest annotate $DOCKER_REPO:gtkdev $DOCKER_REPO:amd64-gtkdev --arch amd64
+        - docker manifest annotate $DOCKER_REPO:gtkdev $DOCKER_REPO:armhf-gtkdev --arch armhf
+        - docker manifest annotate $DOCKER_REPO:gtkdev $DOCKER_REPO:arm64v8-gtkdev --arch arm64 --variant armv8
+        - docker manifest push $DOCKER_REPO:gtkdev
