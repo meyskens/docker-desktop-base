@@ -5,7 +5,8 @@ ARG QEMU_BIN
 COPY $QEMU_BIN /usr/bin
 
 # Install GUI dev
-RUN apt-get update &&  apt-get install -y pkg-config libwebkit2gtk-4.0-dev libgtk-3-dev
+# --allow-unauthenticated is an arm64 patch
+RUN apt-get update &&  apt-get install -y --allow-unauthenticated pkg-config libwebkit2gtk-4.0-dev libgtk-3-dev
 
 # Add components used for the GUI
 # --allow-unauthenticated is an arm64 patch
