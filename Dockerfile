@@ -1,5 +1,8 @@
-FROM debian:stretch
+ARG ARCH
+FROM $ARCH/debian:stretch
 
+ARG QEMU_BIN
+COPY $QEMU_BIN /usr/bin
 
 # Add components used for the GUI
 RUN apt-get update && apt-get install -y \
@@ -60,6 +63,7 @@ RUN echo "deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu xenial main" 
 	bash /etc/fonts/infinality/infctl.sh setstyle infinality
 
 # Add my x-browser-forwarder
+# TODO: multiarch the releases
 RUN wget https://github.com/meyskens/x-www-browser-forward/releases/download/0.0.1/client && \
 	mv client /etc/alternatives/x-www-browser && \
 	chmod +x  /etc/alternatives/x-www-browser && \

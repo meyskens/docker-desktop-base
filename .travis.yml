@@ -1,0 +1,60 @@
+services: docker
+language: bash
+env:
+  global:
+    - DOCKER_REPO=meyskens/desktop-base
+    - DOCKER_CLI_EXPERIMENTAL=enabled
+jobs:
+  include:
+    - stage: build
+      addons: &_addons
+        apt:
+          packages:
+            - qemu-user 
+            - qemu-user-static
+      env:
+        - ARCH=amd64
+        - QEMU_BIN=qemu-x86_64-static
+      install: &_install
+        - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+        - sudo service docker restart
+        - docker run --rm --privileged multiarch/qemu-user-static:register
+      script: &_script
+        - cp /usr/bin/$QEMU_BIN ./
+        - docker build --build-arg="ARCH=$ARCH" --build-arg="QEMU_BIN=$QEMU_BIN" -t $DOCKER_REPO:$ARCH-latest --squash ./
+      after_success: &_after_success
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push $DOCKER_REPO:$ARCH-latest
+
+    - stage: build
+      addons: *_addons
+      env:
+        - ARCH=armhf
+        - QEMU_BIN=qemu-arm-static
+      install: *_install
+      script: *_script
+      after_success: *_after_success
+    - stage: build
+      addons: *_addons
+      env:
+        - ARCH=arm64v8
+        - QEMU_BIN=qemu-aarch64-static
+      install: *_install
+      script: *_script
+      after_success: *_after_success
+  
+    - stage: manifest
+      addons:
+        apt:
+          packages:
+            - docker-ce
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker manifest create $DOCKER_REPO:latest \
+            $DOCKER_REPO:amd64-latest \
+            $DOCKER_REPO:armv8-latest \
+            $DOCKER_REPO:arm64v8-latest
+        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:amd64-latest --arch amd64
+        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:armhf-latest --arch armhf
+        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:arm64v8-latest --arch arm64 --variant armv8
+        - docker manifest push $DOCKER_REPO:latest
