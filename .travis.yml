@@ -29,7 +29,7 @@ jobs:
     - stage: build
       addons: *_addons
       env:
-        - ARCH=armhf
+        - ARCH=arm32v7
         - QEMU_BIN=qemu-arm-static
       install: *_install
       script: *_script
@@ -50,8 +50,8 @@ jobs:
             - docker-ce
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker manifest create $DOCKER_REPO:latest $DOCKER_REPO:amd64-latest $DOCKER_REPO:armhf-latest $DOCKER_REPO:arm64v8-latest
+        - docker manifest create $DOCKER_REPO:latest $DOCKER_REPO:amd64-latest $DOCKER_REPO:arm32v7-latest $DOCKER_REPO:arm64v8-latest
         - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:amd64-latest --arch amd64
-        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:armhf-latest --arch arm --variant v7
+        - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:arm32v7-latest --arch arm --variant v7
         - docker manifest annotate $DOCKER_REPO:latest $DOCKER_REPO:arm64v8-latest --arch arm64 --variant armv8
         - docker manifest push $DOCKER_REPO:latest
