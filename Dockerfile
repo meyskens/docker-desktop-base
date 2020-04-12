@@ -1,5 +1,5 @@
 ARG ARCH
-FROM $ARCH/debian:stretch
+FROM $ARCH/debian:buster
 
 ARG QEMU_BIN
 COPY $QEMU_BIN /usr/bin
