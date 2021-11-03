@@ -1,7 +1,5 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get --reinstall install libc-bin
-
 # Install GUI dev
 RUN apt-get update &&  apt-get install -y pkg-config libwebkit2gtk-4.0-dev libgtk-3-dev
 
