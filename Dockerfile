@@ -1,8 +1,4 @@
-ARG ARCH
-FROM $ARCH/debian:buster
-
-ARG QEMU_BIN
-COPY $QEMU_BIN /usr/bin
+FROM debian:bullseye
 
 # Install GUI dev
 # --allow-unauthenticated is an arm64 patch
@@ -53,7 +49,7 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
 #Tell that I speak English
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 	&& locale-gen en_US.utf8 \
-    a&& /usr/sbin/update-locale LANG=en_US.UTF-8
+	a&& /usr/sbin/update-locale LANG=en_US.UTF-8
 
 #Add emoji
 RUN wget https://github.com/eosrei/emojione-color-font/releases/download/v1.3/fonts-emojione-svginot_1.3-1_all.deb &&\
