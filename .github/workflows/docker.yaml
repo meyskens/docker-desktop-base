@@ -12,7 +12,7 @@ jobs:
     - name: Install buildx
       run: |
         sudo apt-get update
-        sudo apt-get install -y binfmt-support qemu-user-static jq
+        sudo apt-get install -y binfmt-support jq
         mkdir -p ~/.docker/cli-plugins
         BUILDX_URL=$(curl https://api.github.com/repos/docker/buildx/releases/latest | jq -r .assets[].browser_download_url | grep amd64 | grep linux)
         wget $BUILDX_URL -O ~/.docker/cli-plugins/docker-buildx
@@ -20,6 +20,7 @@ jobs:
         docker buildx create --name xbuilder
         docker buildx use xbuilder
         docker buildx inspect --bootstrap
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
     - name: Log in to GH registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
