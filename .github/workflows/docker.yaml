@@ -28,6 +28,7 @@ jobs:
       run: docker buildx build . --tag ghcr.io/meyskens/docker-desktop-base:$GITHUB_SHA --push --platform "linux/amd64,linux/arm64,linux/arm"
     - name: Tag as and push as latest
       run: |
+        docker pull ghcr.io/meyskens/docker-desktop-base:$GITHUB_SHA
         docker tag ghcr.io/meyskens/docker-desktop-base:$GITHUB_SHA ghcr.io/meyskens/docker-desktop-base:latest
         docker push ghcr.io/meyskens/docker-desktop-base:latest
 
