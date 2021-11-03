@@ -1,12 +1,12 @@
 FROM debian:bullseye
 
+RUN apt-get update && apt-get --reinstall install libc-bin
+
 # Install GUI dev
-# --allow-unauthenticated is an arm64 patch
-RUN apt-get update &&  apt-get install -y --allow-unauthenticated pkg-config libwebkit2gtk-4.0-dev libgtk-3-dev
+RUN apt-get update &&  apt-get install -y pkg-config libwebkit2gtk-4.0-dev libgtk-3-dev
 
 # Add components used for the GUI
-# --allow-unauthenticated is an arm64 patch
-RUN apt-get update && apt-get install -y --allow-unauthenticated \
+RUN apt-get update && apt-get install -y \
 	libasound2 \
 	libatk1.0-0 \
 	libcairo2 \
