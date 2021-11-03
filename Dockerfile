@@ -1,5 +1,5 @@
 ARG ARCH
-FROM $ARCH/debian:buster
+FROM $ARCH/debian:bullseye
 
 ARG QEMU_BIN
 COPY $QEMU_BIN /usr/bin
